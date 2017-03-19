@@ -95,7 +95,7 @@ to:
 
 ### Prison Architect
 
-Prison Architect keybindings suffer this problem.  According to the [public forums](http://forums.introversion.co.uk/viewtopic.php?t=19330) and the (private) bug tracker, the issue is known but a fix doesn't look like it an official fix will ever come.
+Prison Architect keybindings suffer this problem.  According to the [public forums](http://forums.introversion.co.uk/viewtopic.php?t=19330) and the (private) bug tracker, the issue is known, but an official fix doesn't look like it will ever come.
 
 With this library loaded, text fields still work correctly (in your native layout, not QWERTY).
 
