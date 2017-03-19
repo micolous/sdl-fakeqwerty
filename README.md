@@ -1,27 +1,27 @@
 # sdl-fakeqwerty
 
-This makes it so that your keyboard looks like a US-QWERTY keyboard to SDL 2.0 games, while not changing any system settings.  This is ideal for games with difficult or impossible to change keybindings which get messed up using a non-QWERTY keyboard.
+This makes it so that your keyboard looks like a US-QWERTY keyboard to Allegro and SDL 2.0 games, while not changing any system settings.  This is ideal for games with difficult or impossible to change keybindings which get messed up using a non-QWERTY keyboard.
 
 The problem is some games use `SDL_Keycode` (`event.keysym.sym`) instead of `SDL_Scancode` (`event.keysym.scancode`), and then set the key bindings so they are physically related on a QWERTY keyboard (for example, the common `W A S D` movement keys).
 
-This library intercepts SDL's event system in order to rewrite the `sym` to be like what a US-QWERTY keyboard would return using.  When activated on a non-QWERTY keyboard, it means these games will have keyboard shortcuts with the same physical positions as a QWERTY keyboard.  eg: `W A S D` bindings become `Comma A O E` on US-Dvorak, or `Z Q S D` on a French AZERTY keyboard.
+This library intercepts SDL's or Xlib's event system in order to rewrite the `sym` to be like what a US-QWERTY keyboard would return using.  When activated on a non-QWERTY keyboard, it means these games will have keyboard shortcuts with the same physical positions as a QWERTY keyboard.  eg: `W A S D` bindings become `Comma A O E` on US-Dvorak, or `Z Q S D` on a French AZERTY keyboard.
 
 This means you no longer have to change keybindings to play a single game, and the remapping is isolated to a single application (window) and automated.
 
 I've only tested this with some Introversion games.  It might fix some other games as well.
 
-Key labels shown in game may be "wrong" as a result of using this library.
+Key labels shown in game will probably be displayed incorrectly as a result of using this library.
 
 > **Note:** This will only work on Linux systems, as it relies on `LD_PRELOAD` to work.  I don't have interest in porting this code to other platforms.
 
-This code is released under the same open source licenses as SDL: zlib for SDL 2.0 related code (see `COPYING-sdl2.txt`), and LGPLv2.1 for SDL 1.2 related code (see `COPYING-sdl1.2.txt`).  Each file has headers which indicate which license that particular code is shared under.
+This code is released under the same open source licenses as SDL: zlib for SDL 2.0 and Xlib related code (see `COPYING-sdl2.txt`), and LGPLv2.1 for SDL 1.2 related code (see `COPYING-sdl1.2.txt`).  Each file has headers which indicate which license that particular code is shared under.
 
 ## Building / compiling the library
 
 Install required packages:
 
 ```
-sudo apt install libsdl2-dev libsdl1.2-dev build-essential
+sudo apt install libsdl2-dev libsdl1.2-dev libx11-dev build-essential
 ```
 
 If you're on an `amd64` (aka `x86_64`, Intel 64), and you want to build the `i686` version of this library (because the game is only built for i686), you'll also need:
@@ -76,6 +76,21 @@ to:
     LD_PRELOAD="./sdl1-hooks-i686.so" ./defcon.bin.x86
 ```
 
+### Factorio
+
+> **Note:** Factorio allows you to configure keybindings. If you use this library, these should be set to the defaults (based on a QWERTY layout).
+
+Copy the compiled `xlib-hooks-amd64.so` file into `SteamLibrary/SteamApps/common/Factorio/bin/x64`.
+
+Rename `factorio` to `factorio.bin`.
+
+Create a new file called `factorio` with this content, and make it executable (`chmod +x`):
+
+```sh
+#!/bin/sh
+BASE=`dirname $0`
+LD_PRELOAD="$BASE/xlib-hooks-amd64.so" "$BASE"/factorio.bin
+```
 
 ### Multiwinia
 
@@ -149,9 +164,11 @@ $ ldd ./exampleGameBinary | grep -i sdl
 	libSDL-1.2.so.0 => /mnt/raid1/SteamLibrary/SteamApps/common/example/./lib/libSDL-1.2.so.0 (0xf7xxxxxx)
 ```
 
+There is also an xlib version which can be used as a fallback for games with other engines (eg: Allegro).
+
 You then need to figure out what architecture the game runs on, which can be done with `file`.
 
-Once you know this, copy the appropriate `sdl*-hooks-*.so` file into the game's folder, and then edit the game's startup script (or make a new startup script), which invokes the game with the appropriate `LD_PRELOAD` environment variable.  For example, this will run the game with the SDL 2.0 hooks for amd64:
+Once you know this, copy the appropriate `*-hooks-*.so` file into the game's folder, and then edit the game's startup script (or make a new startup script), which invokes the game with the appropriate `LD_PRELOAD` environment variable.  For example, this will run the game with the SDL 2.0 hooks for amd64:
 
 ```
 LD_PRELOAD=./sdl2-hooks-amd64.so ./exampleGameBinary
