@@ -1,10 +1,23 @@
 .PHONY: clean
 
-all: sdl2-hooks.so
+all: i686 amd64
 
-sdl2-hooks.so: sdl2-hooks.c
-	gcc -shared -fPIC sdl2-hooks.c -o sdl2-hooks.so -ldl
+i686: sdl1-hooks-i686.so sdl2-hooks-i686.so
+
+amd64: sdl1-hooks-amd64.so sdl2-hooks-amd64.so
+
+sdl1-hooks-amd64.so: sdl1-hooks.c
+	gcc -m64 -march=k8 -shared -fPIC -o $@ $< -ldl
+
+sdl1-hooks-i686.so: sdl1-hooks.c
+	gcc -m32 -march=i686 -shared -fPIC -o $@ $< -ldl
+
+sdl2-hooks-amd64.so: sdl2-hooks.c
+	gcc -m64 -march=k8 -shared -fPIC -o $@ $< -ldl
+
+sdl2-hooks-i686.so: sdl2-hooks.c
+	gcc -m32 -march=i686 -shared -fPIC -o $@ $< -ldl
 
 clean:
-	rm -f sdl2-hooks.so
+	rm -f sdl1-hooks-amd64.so sdl1-hooks-i686.so sdl2-hooks-amd64.so sdl2-hooks-i686.so
 
