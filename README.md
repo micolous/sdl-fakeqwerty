@@ -14,7 +14,7 @@ Key labels shown in game may be "wrong" as a result of using this library.
 
 > **Note:** This will only work on Linux systems, as it relies on `LD_PRELOAD` to work.  I don't have interest in porting this code to other platforms.
 
-This code is released under the same open source licenses as SDL: zlib for SDL 2.0 related code (see `COPYING-sdl2`), and LGPLv2.1 for SDL 1.2 related code (see `COPYING-sdl1.2`).  Each file has headers which indicate which license that particular code is shared under.
+This code is released under the same open source licenses as SDL: zlib for SDL 2.0 related code (see `COPYING-sdl2.txt`), and LGPLv2.1 for SDL 1.2 related code (see `COPYING-sdl1.2.txt`).  Each file has headers which indicate which license that particular code is shared under.
 
 ## Building / compiling the library
 
