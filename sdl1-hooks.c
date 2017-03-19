@@ -24,7 +24,7 @@
 #include <dlfcn.h>
 #include <SDL/SDL_events.h>
 
-const char* qwerty_syms = "1234567890-=\0\0qwertyuiop[]\\\0asdfghjkl;'`\0\0zxcvbnm,./";
+const char* qwerty_syms = "1234567890-=\0\0qwertyuiop[]\0\0asdfghjkl;'`\0\\zxcvbnm,./";
 
 
 typedef int (*orig_SDL_PollEvent_sig)(SDL_Event* event);
