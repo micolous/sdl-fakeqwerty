@@ -72,21 +72,30 @@ KeySym* XGetKeyboardMapping(Display *display, KeyCode first_keycode, int keycode
 
 
 int XLookupString(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out) {
+  //printf("XLookupString(keycode=%02x, buffer_return=%p, bytes_buffer=%d, keysym_return=%p);\n",
+  //  event_struct->keycode, (void*)buffer_return, bytes_buffer, (void*)keysym_return);
+  char new_char;
 
   // Try translating the event by a QWERTY keymap first
   if (event_struct->keycode >= 0x0a && event_struct->keycode <= 0x3d) {
     if (event_struct->state & ShiftMask) {
-      buffer_return[0] = qwerty_syms_shifted[event_struct->keycode - 0x0a];    
+      new_char = qwerty_syms_shifted[event_struct->keycode - 0x0a];    
     } else {
-      buffer_return[0] = qwerty_syms[event_struct->keycode - 0x0a];
+      new_char = qwerty_syms[event_struct->keycode - 0x0a];
     }
-    
-    if (buffer_return[0] != '\0') {
-      if (keysym_return != NULL) {
-        *keysym_return = (unsigned long)buffer_return[0];
+
+    if (new_char != '\0') {
+      if (buffer_return != NULL) {
+        // Unity often requests with buffer_return=NULL
+        buffer_return[0] = new_char;
       }
-      //printf("%04x : %c (%02x)\n", event_struct->keycode, buffer_return[0], buffer_return[0]);
-      return 1;
+
+      if (keysym_return != NULL) {
+        *keysym_return = (unsigned long)new_char;
+      }
+
+      //printf("%04x : %c (%02x)\n", event_struct->keycode, new_char, new_char);
+      return 1; 
     }
   }
 
@@ -95,6 +104,7 @@ int XLookupString(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer
 
   int ret = orig_XLookupString(event_struct, buffer_return, bytes_buffer, keysym_return, status_in_out);
   //printf("%04x : fallback : %c (%02x)\n", event_struct->keycode, buffer_return[0], buffer_return[0]);
+  //printf("%04x : fallback\n", event_struct->keycode);
   return ret;
 }
 

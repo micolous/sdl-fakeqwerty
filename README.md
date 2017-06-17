@@ -1,6 +1,6 @@
 # sdl-fakeqwerty
 
-This makes it so that your keyboard looks like a US-QWERTY keyboard to Allegro and SDL 2.0 games, while not changing any system settings.  This is ideal for games with difficult or impossible to change keybindings which get messed up using a non-QWERTY keyboard.
+This makes it so that your keyboard looks like a US-QWERTY keyboard to Allegro, SDL 1.2, SDL 2.0 and Unity games, while not changing any system settings.  This is ideal for games with difficult or impossible to change keybindings which get messed up using a non-QWERTY keyboard.
 
 The problem is some games use `SDL_Keycode` (`event.keysym.sym`) instead of `SDL_Scancode` (`event.keysym.scancode`), and then set the key bindings so they are physically related on a QWERTY keyboard (for example, the common `W A S D` movement keys).
 
@@ -144,9 +144,27 @@ to:
 
 Then run Prison Architect through Steam as normal.
 
+### SUPERHOT
+
+> **Note:** SUPERHOT does not support changing keybindings, and the tutorial will assume a QWERTY keymap.
+
+Copy the compiled `xlib-hooks-amd64.so` file into `SteamLibrary/SteamApps/common/SUPERHOT`.
+
+Rename `SUPERHOT.x86_64` to `SUPERHOT.bin`. If you choose a different name with more dots in it, then SUPERHOT will fail to start with `There is no data folder`.
+
+Create a new file called `SUPERHOT.x86_64` with this content, and make it executable (`chmod +x`):
+
+```sh
+#!/bin/sh
+BASE=`dirname $0`
+LD_PRELOAD="$BASE/xlib-hooks-amd64.so" "$BASE"/SUPERHOT.bin
+```
+
+Then run SUPERHOT through Steam as normal.  Note that running it directly will cause the game to segfault when you select `superhot.exe` from the game menu.
+
 ## Other games
 
-This library works with games which dynamically link to SDL 1.2 or SDL 2.0.  It doesn't matter if the game supplies its own version of libSDL.so.  This won't work with games which statically link SDL.
+This library works with games which dynamically link to SDL 1.2, SDL 2.0 or Xlib.  It doesn't matter if the game supplies its own version of libSDL.so.  This won't work with games which statically link SDL.
 
 In order to determine which version is in use, use `ldd`.
 
@@ -164,7 +182,7 @@ $ ldd ./exampleGameBinary | grep -i sdl
 	libSDL-1.2.so.0 => /mnt/raid1/SteamLibrary/SteamApps/common/example/./lib/libSDL-1.2.so.0 (0xf7xxxxxx)
 ```
 
-There is also an xlib version which can be used as a fallback for games with other engines (eg: Allegro).
+There is also an xlib version which can be used as a fallback for games with other engines (eg: Allegro and Unity).
 
 You then need to figure out what architecture the game runs on, which can be done with `file`.
 
