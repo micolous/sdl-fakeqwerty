@@ -17,6 +17,7 @@ Key labels shown in game will probably be displayed incorrectly as a result of u
 This code is released under the same open source licenses as SDL: zlib for SDL 2.0 and Xlib related code (see `COPYING-sdl2.txt`), and LGPLv2.1 for SDL 1.2 related code (see `COPYING-sdl1.2.txt`).  Each file has headers which indicate which license that particular code is shared under.
 
 ## Building / compiling the library
+### Linux
 
 Install required packages:
 
@@ -37,6 +38,24 @@ make
 ```
 
 You can also build just the `amd64` (aka `x86_64`, Intel 64) version with `make amd64`, and build just the `i686` (aka `x86_32`) version with `make i686`.
+
+### OSX
+
+> Note: OSX support is experimental and incomplete. This currently only works with Prison Architect.
+
+You'll need Homebrew and XCode installed.
+
+Install required packages:
+
+```
+brew install sdl2
+```
+
+Then to build:
+
+```
+make osx
+```
 
 ## Setting up
 
@@ -114,6 +133,8 @@ Prison Architect keybindings suffer this problem.  According to the [public foru
 
 With this library loaded, text fields still work correctly (in your native layout, not QWERTY).
 
+#### Linux
+
 Copy the compiled `sdl2-hooks-*.so` file into `SteamLibrary/SteamApps/common/Prison Architect`.
 
 Then edit the shell script `PrisonArchitect` in this directory, and go to the end of the file.
@@ -144,6 +165,40 @@ to:
 
 Then run Prison Architect through Steam as normal.
 
+#### OSX
+
+**Note:** This is experimental, and you need to run `make install-osx` first (per the build instructions above).
+
+First, open `Prison Architect.app/Contents/Info.plist`, and find the attribute:
+
+```xml
+	<key>CFBundleExecutable</key>
+  <string>Prison Architect</string>
+```
+
+Replace it with:
+
+```xml
+	<key>CFBundleExecutable</key>
+  <string>prison.sh</string>
+```
+
+Create a new, executable (`chmod +x`) file `Prison Architect.app/Contents/MacOS/prison.sh` with the contents:
+
+```sh
+#!/bin/bash
+cd "${0%/*}"
+DYLD_FORCE_FLAT_NAMESPACE=1 DYLD_INSERT_LIBRARIES=/usr/local/lib/sdl2-hooks.dylib ./Prison\ Architect "$@"
+```
+
+Finally, refresh the `launchctl` cache with:
+
+```
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -v -f ${HOME}/Library/Application\ Support/Steam/steamapps/common/Prison\ Architect/Prison\ Architect.app
+```
+
+And then you can launch the game through Steam as normal.
+
 ### SUPERHOT
 
 > **Note:** SUPERHOT does not support changing keybindings, and the tutorial will assume a QWERTY keymap.
@@ -163,6 +218,8 @@ LD_PRELOAD="$BASE/xlib-hooks-amd64.so" "$BASE"/SUPERHOT.bin
 Then run SUPERHOT through Steam as normal.  Note that running it directly will cause the game to segfault when you select `superhot.exe` from the game menu.
 
 ## Other games
+
+### Linux
 
 This library works with games which dynamically link to SDL 1.2, SDL 2.0 or Xlib.  It doesn't matter if the game supplies its own version of libSDL.so.  This won't work with games which statically link SDL.
 
@@ -192,3 +249,10 @@ Once you know this, copy the appropriate `*-hooks-*.so` file into the game's fol
 LD_PRELOAD=./sdl2-hooks-amd64.so ./exampleGameBinary
 ```
 
+### OSX
+
+Steam on OSX appears to support neither the `%COMMAND%` options that the Linux client does, nor the `LSEnvironment` attribute.
+
+Currently only the SDL2 library has been set up for OSX support.
+
+There may be some issues with the `rpath` on other games.  But this may be difficult to address in a generic way.

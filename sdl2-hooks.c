@@ -31,10 +31,19 @@
 typedef int (*orig_SDL_PollEvent_sig)(SDL_Event* event);
 
 int SDL_PollEvent(SDL_Event* event) {
-  orig_SDL_PollEvent_sig orig_SDL_PollEvent = (orig_SDL_PollEvent_sig)dlsym(RTLD_NEXT, "SDL_PollEvent");
+  static orig_SDL_PollEvent_sig orig_SDL_PollEvent = NULL;
+
+  if (orig_SDL_PollEvent == NULL) {
+#ifdef __APPLE__
+    // EXPERIMENTAL!
+    void *handle = dlopen("@rpath/SDL2.framework/Versions/A/SDL2", RTLD_NOW);
+    orig_SDL_PollEvent = (orig_SDL_PollEvent_sig)dlsym(handle, "SDL_PollEvent");
+#else
+    orig_SDL_PollEvent = (orig_SDL_PollEvent_sig)dlsym(RTLD_NEXT, "SDL_PollEvent");
+#endif
+  }
 
   int ret = orig_SDL_PollEvent(event);
-  
   if (ret == 1) {
     // There is an event which we should try to mangle.
     if (event->type == SDL_KEYDOWN || event->type == SDL_KEYUP) {
