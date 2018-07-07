@@ -39,14 +39,18 @@ typedef int (*orig_XLookupString_sig)(XKeyEvent *event_struct, char *buffer_retu
 
 
 KeySym* XGetKeyboardMapping(Display *display, KeyCode first_keycode, int keycode_count, int *keysyms_per_keycode_return) {
-  orig_XGetKeyboardMapping_sig orig_XGetKeyboardMapping = (orig_XGetKeyboardMapping_sig)dlsym(RTLD_NEXT, "XGetKeyboardMapping");
+  static orig_XGetKeyboardMapping_sig orig_XGetKeyboardMapping = NULL;
   
+  if (orig_XGetKeyboardMapping == NULL) {
+    orig_XGetKeyboardMapping = (orig_XGetKeyboardMapping_sig)dlsym(RTLD_NEXT, "XGetKeyboardMapping");
+  }
+
   KeySym* ret = orig_XGetKeyboardMapping(display, first_keycode, keycode_count, keysyms_per_keycode_return);
-  
+
   for (int x=0; x<keycode_count * (*keysyms_per_keycode_return); x++) {
     int keycode = first_keycode + (x / (*keysyms_per_keycode_return));
     int keysym_no = x % (*keysyms_per_keycode_return);
-    
+
     if (keycode >= 0x0a && keycode <= 0x3d) {
       unsigned long newcode = 0;
       switch (keysym_no) {
@@ -54,24 +58,25 @@ KeySym* XGetKeyboardMapping(Display *display, KeyCode first_keycode, int keycode
         case 2: // Regular
           newcode = (unsigned long)qwerty_syms[keycode - 0x0a];
           break;
-        
+
         case 1:
         case 3: // SHIFT
           newcode = (unsigned long)qwerty_syms_shifted[keycode - 0x0a];
           break;
       }
-      
+
       if (newcode != 0) {
         ret[x] = newcode;
       }
     }
   }
-  
+
   return ret;
 }
 
 
 int XLookupString(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out) {
+  static orig_XLookupString_sig orig_XLookupString = NULL;
   //printf("XLookupString(keycode=%02x, buffer_return=%p, bytes_buffer=%d, keysym_return=%p);\n",
   //  event_struct->keycode, (void*)buffer_return, bytes_buffer, (void*)keysym_return);
   char new_char;
@@ -100,7 +105,9 @@ int XLookupString(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer
   }
 
   // Fall back to calling the real function
-  orig_XLookupString_sig orig_XLookupString = (orig_XLookupString_sig)dlsym(RTLD_NEXT, "XLookupString");
+  if (orig_XLookupString == NULL) {
+    orig_XLookupString = (orig_XLookupString_sig)dlsym(RTLD_NEXT, "XLookupString");
+  }
 
   int ret = orig_XLookupString(event_struct, buffer_return, bytes_buffer, keysym_return, status_in_out);
   //printf("%04x : fallback : %c (%02x)\n", event_struct->keycode, buffer_return[0], buffer_return[0]);
@@ -121,7 +128,7 @@ int XmbLookupString(XIC ic, XKeyPressedEvent *event, char *buffer_return, int by
   }
 
   return len;
-}  
+}
 
 int Xutf8LookupString(XIC ic, XKeyPressedEvent *event, char *buffer_return, int bytes_buffer, KeySym *keysym_return, Status *status_return) {
   return XmbLookupString(ic, event, buffer_return, bytes_buffer, keysym_return, status_return);
