@@ -56,7 +56,11 @@ In effect, any game which assigns actions to _key code_ will now have them assig
 
 This does mean the UI will still _show_ the wrong key, but the position of the keys won't be jumbled anymore.
 
-## Does this make 
+## Does this make games run slower?
+
+Not noticeably.
+
+This may make a couple of extra library calls, but only on the input handler code. It stays out of the way as much as possible.
 
 ## How should games handle keyboard input?
 
