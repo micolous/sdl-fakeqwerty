@@ -10,7 +10,7 @@ I've mainly tested this with some Introversion games.  It might fix some other g
 
 Key labels shown in game will probably be displayed incorrectly as a result of using this library.
 
-> **Note:** This will only work on Linux systems, as it relies on `LD_PRELOAD` to work.  I don't have interest in porting this code to other platforms.
+> **Note:** This will only work on Linux systems, as it relies on `LD_PRELOAD` to work.  There is limited support on OSX (Prison Architect).  I don't have interest in porting this code to other platforms.
 
 ## License
 
@@ -23,19 +23,31 @@ This code is released under the same open source licenses as SDL: zlib for SDL 2
 Install required packages:
 
 ```
+# Debian, Ubuntu and friends:
 sudo apt install libsdl2-dev libsdl1.2-dev libx11-dev build-essential
+
+# Fedora, OpenSUSE and friends:
+sudo dnf install SDL2-devel SDL-devel libX11-devel '@Development Tools'
 ```
 
 If you're on an `amd64` (aka `x86_64`, Intel 64), and you want to build the `i686` version of this library (because the game is only built for i686), you'll also need:
 
 ```
+# Debian, Ubuntu and friends:
 sudo apt install gcc-multilib
+
+# Fedora, OpenSUSE and friends:
+sudo dnf install glibc-devel.i686 SDL2-devel.i686 SDL-devel.i686 libX11-devel.i686
 ```
 
 Then to build:
 
 ```
-make
+# Build amd64 version of the library:
+make amd64
+
+# Build i686 version of the library:
+make i686
 ```
 
 You can also build just the `amd64` (aka `x86_64`, Intel 64) version with `make amd64`, and build just the `i686` (aka `x86_32`) version with `make i686`.
@@ -100,7 +112,7 @@ Alternatively, you can use a shell script to wrap the game's binary.
 
 ### OSX
 
-Steam on OSX appears to support neither the `%COMMAND%` options that the Linux client does, nor the `LSEnvironment` attribute, so you need a startup script like:
+Steam on OSX appears to support neither [the `%COMMAND%` options that the Linux client does](https://github.com/ValveSoftware/steam-for-linux/issues/5548), nor the `LSEnvironment` attribute, so you need a startup script like:
 
 ```bash
 #!/bin/bash
