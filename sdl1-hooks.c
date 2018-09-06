@@ -21,20 +21,16 @@
 */
 
 #define _GNU_SOURCE
-#include <dlfcn.h>
 #include <SDL/SDL_events.h>
+#include "helper.h"
 
 const char* qwerty_syms = "1234567890-=\0\0qwertyuiop[]\0\0asdfghjkl;'`\0\\zxcvbnm,./";
 
 
-typedef int (*orig_SDL_PollEvent_sig)(SDL_Event* event);
+typedef int (*sig_SDL_PollEvent)(SDL_Event* event);
 
 int SDL_PollEvent(SDL_Event* event) {
-  static orig_SDL_PollEvent_sig orig_SDL_PollEvent = NULL;
-
-  if (orig_SDL_PollEvent == NULL) {
-    orig_SDL_PollEvent = (orig_SDL_PollEvent_sig)dlsym(RTLD_NEXT, "SDL_PollEvent");
-  }
+  GET_ORIG(SDL_PollEvent);
 
   int ret = orig_SDL_PollEvent(event);
   if (ret == 1) {

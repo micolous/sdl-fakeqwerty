@@ -25,25 +25,20 @@
 */
 
 #define _GNU_SOURCE
-#include <dlfcn.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include "helper.h"
 
 const char* qwerty_syms = "1234567890-=\0\0qwertyuiop[]\0\0asdfghjkl;'`\0\\zxcvbnm,./";
 const char* qwerty_syms_shifted = "!@#$%^&*()_+\0\0QWERTYUIOP{}\0\0ASDFGHJKL:\"~\0|ZXCVBNM<>?";
 
 
-typedef KeySym* (*orig_XGetKeyboardMapping_sig)(Display *display, KeyCode first_keycode, int keycode_count, int *keysyms_per_keycode_return);
-typedef int (*orig_XLookupString_sig)(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out);
-
+typedef KeySym* (*sig_XGetKeyboardMapping)(Display *display, KeyCode first_keycode, int keycode_count, int *keysyms_per_keycode_return);
+typedef int (*sig_XLookupString)(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out);
 
 
 KeySym* XGetKeyboardMapping(Display *display, KeyCode first_keycode, int keycode_count, int *keysyms_per_keycode_return) {
-  static orig_XGetKeyboardMapping_sig orig_XGetKeyboardMapping = NULL;
-  
-  if (orig_XGetKeyboardMapping == NULL) {
-    orig_XGetKeyboardMapping = (orig_XGetKeyboardMapping_sig)dlsym(RTLD_NEXT, "XGetKeyboardMapping");
-  }
+  GET_ORIG(XGetKeyboardMapping);
 
   KeySym* ret = orig_XGetKeyboardMapping(display, first_keycode, keycode_count, keysyms_per_keycode_return);
 
@@ -76,7 +71,7 @@ KeySym* XGetKeyboardMapping(Display *display, KeyCode first_keycode, int keycode
 
 
 int XLookupString(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out) {
-  static orig_XLookupString_sig orig_XLookupString = NULL;
+  GET_ORIG(XLookupString);
   //printf("XLookupString(keycode=%02x, buffer_return=%p, bytes_buffer=%d, keysym_return=%p);\n",
   //  event_struct->keycode, (void*)buffer_return, bytes_buffer, (void*)keysym_return);
   char new_char;
@@ -102,11 +97,6 @@ int XLookupString(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer
       //printf("%04x : %c (%02x)\n", event_struct->keycode, new_char, new_char);
       return 1; 
     }
-  }
-
-  // Fall back to calling the real function
-  if (orig_XLookupString == NULL) {
-    orig_XLookupString = (orig_XLookupString_sig)dlsym(RTLD_NEXT, "XLookupString");
   }
 
   int ret = orig_XLookupString(event_struct, buffer_return, bytes_buffer, keysym_return, status_in_out);

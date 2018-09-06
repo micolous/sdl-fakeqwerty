@@ -1,9 +1,8 @@
 /* -*- mode: c; indent-tabs-mode: nil; tab-width: 2
-  sdl-fakeqwerty/sdl2-hooks.c
-  Copyright 2017 Michael Farrell <micolous+git@gmail.com>
+  sdl-fakeqwerty/helper.h
+  Copyright 2018 Michael Farrell <micolous+git@gmail.com>
  
-  Hook some SDL2 related input functionality and make it look like there is a
-  QWERTY keyboard attached for applications which read the "sym" (SDL_Keycode).
+  Helper functions for sdl-fakeqwerty
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -25,25 +24,21 @@
 */
 
 #define _GNU_SOURCE
-#include <SDL2/SDL_events.h>
-#define WRAPPED_RPATH "@rpath/SDL2.framework/Versions/A/SDL2"
-#include "helper.h"
+#include <dlfcn.h>
 
-typedef int (*sig_SDL_PollEvent)(SDL_Event* event);
+#if defined(__APPLE__) && !defined(WRAPPED_RPATH)
+#error "Must define WRAPPED_RPATH on OSX!"
+#endif
 
-int SDL_PollEvent(SDL_Event* event) {
-  GET_ORIG(SDL_PollEvent);
+#ifdef __APPLE__
+#define dlsym_handle dlopen(WRAPPED_RPATH, RTLD_NOW)
+#else
+#define dlsym_handle RTLD_NEXT
+#endif
 
-  int ret = orig_SDL_PollEvent(event);
-  if (ret == 1) {
-    // There is an event which we should try to mangle.
-    if (event->type == SDL_KEYDOWN || event->type == SDL_KEYUP) {
-      SDL_Keycode fixed_sym = SDL_GetKeyFromName(SDL_GetScancodeName(event->key.keysym.scancode));
-
-      event->key.keysym.sym = fixed_sym;
-    }
+#define GET_ORIG(FN) \
+  static sig_ ## FN orig_ ## FN = NULL; \
+  if (orig_ ## FN == NULL) { \
+    orig_ ## FN = (sig_ ## FN)dlsym(dlsym_handle, #FN); \
   }
-
-  return ret;
-}
 
