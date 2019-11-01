@@ -10,4 +10,5 @@ Game                                      | Library | Linux              | OSX
 [Multiwinia](./multiwinia.md)             | SDL 1.2 | :heavy_check_mark: | :no_entry_sign:
 [Prison Architect](./prison_architect.md) | SDL 2.0 | :heavy_check_mark: | :heavy_check_mark:
 [SUPERHOT](./superhot.md)                 | xlib    | :heavy_check_mark: | :no_entry_sign:
+[SpaceChem](./spacechem.md)               | SDL 1.2 | :heavy_check_mark: | :no_entry_sign:
 

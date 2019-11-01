@@ -17,6 +17,17 @@ sdl1-hooks-i686.so: sdl1-hooks.c
 	gcc -m32 -march=i686 -shared -fPIC -g -o $@ $< -ldl
 	$(STRIP) $@
 
+# SDL 1.2 PeepEvent
+AMD64_LIBS += sdl1-peep-hooks-amd64.so
+sdl1-peep-hooks-amd64.so: sdl1-peep-hooks.c
+	gcc -m64 -march=k8 -shared -fPIC -g -o $@ $< -ldl
+	$(STRIP) $@
+
+I686_LIBS += sdl1-peep-hooks-i686.so
+sdl1-peep-hooks-i686.so: sdl1-peep-hooks.c
+	gcc -m32 -march=i686 -shared -fPIC -g -o $@ $< -ldl
+	$(STRIP) $@
+
 # SDL 2.0
 AMD64_LIBS += sdl2-hooks-amd64.so
 sdl2-hooks-amd64.so: sdl2-hooks.c
