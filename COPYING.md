@@ -2,8 +2,8 @@
 
 This code is released under the _same_ open source licenses as SDL:
 
-* **zlib** for `helper.h`, `sdl2-hooks.c` and `xlib-hooks.c` (see `COPYING-sdl2.txt`)
-* **LGPLv2.1 or later** for `sdl1-hooks.c` (see `COPYING-sdl1.2.txt`)
+* [**zlib**](./COPYING-sdl2.txt) for `helper.h`, `sdl2-hooks.c` and `xlib-hooks.c`
+* [**LGPLv2.1 or later**](./COPYING-sdl1.2.txt) for `sdl1-hooks.c` and `sdl1-peep-hooks.c`
 
 Each file has headers which indicate which license that particular code is shared under.
 
