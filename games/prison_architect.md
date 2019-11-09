@@ -8,7 +8,7 @@ With this library loaded, text fields still work correctly (in your native layou
 
 Copy the compiled `sdl2-hooks-*.so` file into `SteamLibrary/SteamApps/common/Prison Architect`.
 
-Set the Steam launch options.  If you are on an `amd64` system, set:
+[Set the Steam launch options][steam-launch-opts].  If you are on an `amd64` system, set:
 
 ```
 LD_PRELOAD="./sdl2-hooks-amd64.so" %COMMAND%
@@ -22,6 +22,8 @@ LD_PRELOAD="./sdl2-hooks-i686.so" %COMMAND%
 ```
 
 Then run Prison Architect through Steam as normal.
+
+[steam-launch-opts]: https://support.steampowered.com/kb_article.php?ref=5623-QOSV-5250
 
 ## OSX
 

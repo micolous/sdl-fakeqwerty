@@ -1,4 +1,4 @@
-## License
+# License
 
 This code is released under the _same_ open source licenses as SDL:
 
@@ -7,7 +7,7 @@ This code is released under the _same_ open source licenses as SDL:
 
 Each file has headers which indicate which license that particular code is shared under.
 
-### An extra special note for unscrupulous game publishers
+#### An extra special note for unscrupulous game publishers
 
 Some [unscrupulous game publishers][paradox] believe that they are entitled to additional rights and impose additional restrictions on "mods" released by third parties without compensation.
 

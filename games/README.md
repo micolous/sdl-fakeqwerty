@@ -36,11 +36,14 @@ $ ldd ./exampleGameBinary | grep -i sdl
 	libSDL-1.2.so.0 => /mnt/raid1/SteamLibrary/SteamApps/common/example/./lib/libSDL-1.2.so.0 (0xf7xxxxxx)
 ```
 
-There is also an xlib version which can be used as a fallback for games with other engines (eg: Allegro and Unity).
+Additional versions:
+
+* `sdl1-peep-hooks`: alternative SDL1.2 version that uses `SDL_PeepEvents`
+* `xlib-hooks`: alternative Xlib version for games with other engines (eg: Allegro and Unity)
 
 You then need to figure out what architecture the game runs on, which can be done with `file`.
 
-Once you know this, copy the appropriate `*-hooks-*.so` file into the game's folder, and then edit the game's launch options in Steam.  For example, this will run the game with the SDL 2.0 hooks for amd64:
+Once you know this, copy the appropriate `*-hooks-*.so` file into the game's folder, and then [edit the game's launch options in Steam][steam-launch-opts].  For example, this will run the game with the SDL 2.0 hooks for amd64:
 
 ```
 LD_PRELOAD="./sdl2-hooks-amd64.so" %COMMAND%
@@ -61,3 +64,5 @@ DYLD_FORCE_FLAT_NAMESPACE=1 DYLD_INSERT_LIBRARIES=/usr/local/lib/sdl2-hooks.dyli
 Currently only the SDL2 library has been set up for OSX support.
 
 There may be some issues with the `rpath` on other games.  But this may be difficult to address in a generic way.
+
+[steam-launch-opts]: https://support.steampowered.com/kb_article.php?ref=5623-QOSV-5250
