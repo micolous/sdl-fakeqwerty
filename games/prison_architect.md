@@ -27,7 +27,7 @@ Then run Prison Architect through Steam as normal.
 
 ## OSX
 
-**Note:** This is experimental, and you need to run `make install-osx` first (per the build instructions in [README.md](../README.md)).
+**Note:** This is experimental, and you need to run `make install-osx` first (per the [build instructions](../building.md)).
 
 First, open `Prison Architect.app/Contents/Info.plist`, and find the attribute:
 

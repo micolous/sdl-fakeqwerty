@@ -6,11 +6,9 @@ impossible to change keybindings
 [which get messed up when using a non-US-QWERTY keyboard][background].
 
 This library intercepts SDL's or Xlib's event system in order to rewrite
-[the `keysym`][background] to be what a US-QWERTY keyboard would return.
-
-When activated on a _non-QWERTY_ keyboard, it means these games will have
-keyboard shortcuts with the same _physical_ positions as a QWERTY keyboard. For
-example:
+[the `keysym`][background] to be what a US-QWERTY keyboard would return. When
+activated on a _non-QWERTY_ keyboard, it the game will have keyboard shortcuts
+with the same _physical_ positions as a QWERTY keyboard. For example:
 
 <table>
   <tbody>
@@ -76,7 +74,11 @@ games as well -- it has been tested with Allegro, SDL 1.2, SDL 2.0 and Unity.
 Key labels shown in-game will probably be displayed _incorrectly_ as a result
 of using this library (they will be the same as a US-QWERTY keyboard).
 
-> **Note:** This will only work on Linux systems, as it relies on `LD_PRELOAD` to work.  There is limited support on OSX (Prison Architect).  I don't have interest in porting this code to other platforms.
+> **Note:** This will only work on Linux systems, as it relies on `LD_PRELOAD`
+> to work.  There is limited support on macOS (Prison Architect).
+>
+> I'm not interested in porting this code to other platforms (eg: Windows), but
+> patches are welcome if you can make it work. ;)
 
 ## Documentation
 
