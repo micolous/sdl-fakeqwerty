@@ -7,7 +7,7 @@ impossible to change keybindings
 
 This library intercepts SDL's or Xlib's event system in order to rewrite
 [the `keysym`][background] to be what a US-QWERTY keyboard would return. When
-activated on a _non-QWERTY_ keyboard, it the game will have keyboard shortcuts
+activated on a _non-QWERTY_ keyboard, the game will have keyboard shortcuts
 with the same _physical_ positions as a QWERTY keyboard. For example:
 
 <table>
