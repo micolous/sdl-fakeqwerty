@@ -20,46 +20,46 @@ example:
       <th>French AZERTY</th>
     </tr>
     <tr>
-      <td style="text-align: center">(default settings)</td>
-      <td colspan="2" style="text-align: center">
+      <td align="center">(default settings)</td>
+      <td colspan="2" align="center">
         <em>(with this library)</em>
       </td>
     </tr>
     <tr>
       <td><table><tbody>
         <tr>
-          <td style="text-align: center">Q<br>Talk</td>
-          <td style="text-align: center">W<br>Move forward</td>
-          <td style="text-align: center">E<br>Use item</td>
+          <td align="center">Q<br>Talk</td>
+          <td align="center">W<br>Move forward</td>
+          <td align="center">E<br>Use item</td>
         </tr>
         <tr>
-          <td style="text-align: center">A<br>Move left</td>
-          <td style="text-align: center">S<br>Move backward</td>
-          <td style="text-align: center">D<br>Move right</td>
-        </tr>
-      </tbody></table></td>
-      <td><table><tbody>
-        <tr>
-          <td style="text-align: center">'<br>Talk</td>
-          <td style="text-align: center">,<br>Move forward</td>
-          <td style="text-align: center">.<br>Use item</td>
-        </tr>
-        <tr>
-          <td style="text-align: center">A<br>Move left</td>
-          <td style="text-align: center">O<br>Move backward</td>
-          <td style="text-align: center">E<br>Move right</td>
+          <td align="center">A<br>Move left</td>
+          <td align="center">S<br>Move backward</td>
+          <td align="center">D<br>Move right</td>
         </tr>
       </tbody></table></td>
       <td><table><tbody>
         <tr>
-          <td style="text-align: center">A<br>Talk</td>
-          <td style="text-align: center">Z<br>Move forward</td>
-          <td style="text-align: center">E<br>Use item</td>
+          <td align="center">'<br>Talk</td>
+          <td align="center">,<br>Move forward</td>
+          <td align="center">.<br>Use item</td>
         </tr>
         <tr>
-          <td style="text-align: center">Q<br>Move left</td>
-          <td style="text-align: center">S<br>Move backward</td>
-          <td style="text-align: center">D<br>Move right</td>
+          <td align="center">A<br>Move left</td>
+          <td align="center">O<br>Move backward</td>
+          <td align="center">E<br>Move right</td>
+        </tr>
+      </tbody></table></td>
+      <td><table><tbody>
+        <tr>
+          <td align="center">A<br>Talk</td>
+          <td align="center">Z<br>Move forward</td>
+          <td align="center">E<br>Use item</td>
+        </tr>
+        <tr>
+          <td align="center">Q<br>Move left</td>
+          <td align="center">S<br>Move backward</td>
+          <td align="center">D<br>Move right</td>
         </tr>
       </tbody></table></td>
     </tr>
