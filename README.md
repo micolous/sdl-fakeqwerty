@@ -28,38 +28,38 @@ example:
     <tr>
       <td><table><tbody>
         <tr>
-          <td align="center"><kbd>Q</kbd><br>Talk</td>
-          <td align="center"><kbd>W</kbd><br>Move forward</td>
-          <td align="center"><kbd>E</kbd><br>Use item</td>
+          <td align="center" valign="top"><kbd>Q</kbd><br>Talk</td>
+          <td align="center" valign="top"><kbd>W</kbd><br>Move forward</td>
+          <td align="center" valign="top"><kbd>E</kbd><br>Use item</td>
         </tr>
         <tr>
-          <td align="center"><kbd>A</kbd><br>Move left</td>
-          <td align="center"><kbd>S</kbd><br>Move backward</td>
-          <td align="center"><kbd>D</kbd><br>Move right</td>
-        </tr>
-      </tbody></table></td>
-      <td><table><tbody>
-        <tr>
-          <td align="center"><kbd>'</kbd><br>Talk</td>
-          <td align="center"><kbd>,</kbd><br>Move forward</td>
-          <td align="center"><kbd>.</kbd><br>Use item</td>
-        </tr>
-        <tr>
-          <td align="center"><kbd>A</kbd><br>Move left</td>
-          <td align="center"><kbd>O</kbd><br>Move backward</td>
-          <td align="center"><kbd>E</kbd><br>Move right</td>
+          <td align="center" valign="top"><kbd>A</kbd><br>Move left</td>
+          <td align="center" valign="top"><kbd>S</kbd><br>Move backward</td>
+          <td align="center" valign="top"><kbd>D</kbd><br>Move right</td>
         </tr>
       </tbody></table></td>
       <td><table><tbody>
         <tr>
-          <td align="center"><kbd>A</kbd><br>Talk</td>
-          <td align="center"><kbd>Z</kbd><br>Move forward</td>
-          <td align="center"><kbd>E</kbd><br>Use item</td>
+          <td align="center" valign="top"><kbd>'</kbd><br>Talk</td>
+          <td align="center" valign="top"><kbd>,</kbd><br>Move forward</td>
+          <td align="center" valign="top"><kbd>.</kbd><br>Use item</td>
         </tr>
         <tr>
-          <td align="center"><kbd>Q</kbd><br>Move left</td>
-          <td align="center"><kbd>S</kbd><br>Move backward</td>
-          <td align="center"><kbd>D</kbd><br>Move right</td>
+          <td align="center" valign="top"><kbd>A</kbd><br>Move left</td>
+          <td align="center" valign="top"><kbd>O</kbd><br>Move backward</td>
+          <td align="center" valign="top"><kbd>E</kbd><br>Move right</td>
+        </tr>
+      </tbody></table></td>
+      <td><table><tbody>
+        <tr>
+          <td align="center" valign="top"><kbd>A</kbd><br>Talk</td>
+          <td align="center" valign="top"><kbd>Z</kbd><br>Move forward</td>
+          <td align="center" valign="top"><kbd>E</kbd><br>Use item</td>
+        </tr>
+        <tr>
+          <td align="center" valign="top"><kbd>Q</kbd><br>Move left</td>
+          <td align="center" valign="top"><kbd>S</kbd><br>Move backward</td>
+          <td align="center" valign="top"><kbd>D</kbd><br>Move right</td>
         </tr>
       </tbody></table></td>
     </tr>
