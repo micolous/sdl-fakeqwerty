@@ -36,7 +36,6 @@ example:
           <td>D<br>Move right</td>
         </tr>
       </tbody></table></td>
-
       <td><table><tbody style="text-align: center">
         <tr>
           <td>'<br>Talk</td>
@@ -49,7 +48,6 @@ example:
           <td>E<br>Move right</td>
         </tr>
       </tbody></table></td>
-
       <td><table><tbody style="text-align: center">
         <tr>
           <td>A<br>Talk</td>
